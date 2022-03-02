@@ -2,7 +2,8 @@
 #'
 #'
 #' @param memename A character describing the meme to get. See [meme_list()]
-#'
+#' @param filepath A direct file path that can be used for locally saved memes.
+#' 
 #' @examples
 #' meme_get("AllTheThings")
 #' @export
@@ -17,15 +18,19 @@
 #'    \item{Finally}{Run `usethis::use_data(blankmemes, overwrite = T)`}
 #' }
 #'
-meme_get <- function(memename) {
-  if (!is.character(memename)) {
-    stop("Error: memename must be a character. See meme_list().")
+meme_get <- function(memename, filepath) {
+  if(missing(filepath)) {
+    if (!is.character(memename)) {
+      stop("Error: memename must be a character. See meme_list().")
+    }
+    
+    idx <- which(memer::blankmemes$name == memename)
+    filepath <- paste0("extdata/", memer::blankmemes$filename[idx])
+    filepath <- system.file(filepath, package = "memer", lib.loc = NULL, mustWork = T)
+  } else {
+    stopifnot(file.exists(filepath))
   }
-
-  idx <- which(memer::blankmemes$name == memename)
-  filepath <- paste0("extdata/", memer::blankmemes$filename[idx])
-
-  p <- image_read(system.file(filepath, package = "memer", lib.loc = NULL, mustWork = T))
+  p <- image_read(filepath)
   return(p)
 }
 

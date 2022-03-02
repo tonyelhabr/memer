@@ -4,10 +4,12 @@
 \alias{meme_get}
 \title{Read in the meme you wish to create}
 \usage{
-meme_get(memename)
+meme_get(memename, filepath)
 }
 \arguments{
 \item{memename}{A character describing the meme to get. See \code{\link[=meme_list]{meme_list()}}}
+
+\item{filepath}{A direct file path that can be used for locally saved memes.}
 }
 \description{
 Read in the meme you wish to create
